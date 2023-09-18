@@ -2,12 +2,14 @@
 Code for IPM2023 paper [“Variety-aware GAN and online learning augmented self-training model for knowledge graph entity alignment”](https:10.1016/j.ipm.2023.103472).
 
 ## Environment
+'''
 python==3.6.13
 apex==0.1
 pytorch==1.7.1
 torch_geometric==2.0.2
 networkx==2.5.1
 cuda==11.2
+'''
 
 ## Running
 1. download glove.6B.zip from https://nlp.stanford.edu/projects/glove/
