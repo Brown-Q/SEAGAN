@@ -94,9 +94,9 @@ def main(args):
     batchsize = 64
     for epoch in range(args.epoch):
         torch.cuda.empty_cache()
-        data.train_set=data.train_set.cuda()
+        data.train_set = data.train_set.cuda()
         num_ite = len(data.train_set)//batchsize
-        model =DSEA(data.x1.size(1), args.r_hidden).to(device)
+        model = DSEA(data.x1.size(1), args.r_hidden).to(device)
         print(data.train_set.shape)
         optimizer = torch.optim.Adam(itertools.chain(model.parameters(), iter([data.x1, data.x2])))
         model, optimizer = apex.amp.initialize(model, optimizer)
@@ -105,13 +105,13 @@ def main(args):
         loss_1=0
         for ite in range(num_ite):
             train_batch = get_train_batch(x1, x2,data.train_set[ite*batchsize:(ite+1)*batchsize], args.k)
-            loss=train(model, criterion, optimizer, data,data.train_set[ite*batchsize:(ite+1)*batchsize], train_batch)
+            loss = train(model, criterion, optimizer, data,data.train_set[ite*batchsize:(ite+1)*batchsize], train_batch)
             loss_1 = float(loss)+loss_1
         loss_1=loss_1/num_ite
         print('Epoch:', epoch+1, '/', args.epoch, '\tLoss: %.3f'%loss_1, '\r', end='')
         test1(model, data,args.stable_test)
         print()      
-        test_input_number,test_input,trust_input,negative_input1,negative_input2=test(model, data,args.stable_test)
+        test_input_number,test_input,trust_input,negative_input1,negative_input2 = test(model, data,args.stable_test)
         d = D(1).apply(weights_init).to(device)  
         g = G(1).apply(weights_init).to(device)  
         criterion_gan = nn.CrossEntropyLoss()
@@ -124,15 +124,15 @@ def main(args):
                 d.load_state_dict(torch.load('data/DBP15K/'+args.lang+'/gan/d_90'))        
                 trust_test = d(test_input).clone().detach()
                 trust_test = torch.tensor(trust_test[:,0]>trust_test[:,1])+0
-                new_alignment=test_input_number[torch.where(trust_test==1)[0]]
-                # new_alignment=test_input_number[:5000,:]
+                new_alignment = test_input_number[torch.where(trust_test==1)[0]]
+                # new_alignment = test_input_number[:5000,:]
                 if len(new_alignment) < 1:
-                    new_alignment=test_input_number[torch.where(trust_test==0)[0]][:500,:]
-                    # new_alignment=construct_subgraph(data.pair_set,new_alignment)  
+                    new_alignment = test_input_number[torch.where(trust_test==0)[0]][:500,:]
+                    # new_alignment = construct_subgraph(data.pair_set,new_alignment)  
                 if len(new_alignment) > 64:
-                    # data.train_set=torch.cat([data.pair_set[17000:,:],new_alignment],dim=0)
-                    new_alignment=construct_subgraph(data.train_set,new_alignment)  
-                    data.train_set=new_alignment
+                    # data.train_set = torch.cat([data.pair_set[17000:,:],new_alignment],dim=0)
+                    new_alignment = construct_subgraph(data.train_set,new_alignment)  
+                    data.train_set = new_alignment
                         
 if __name__ == '__main__':
     torch.autograd.set_detect_anomaly(True)
