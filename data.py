@@ -16,7 +16,7 @@ class DBP15K(InMemoryDataset):
         self.pair = pair
         self.KG_num = KG_num
         self.rate = rate
-        self.rate2= rate2
+        self.rate2 = rate2
         self.seed = seed
         torch.manual_seed(seed)
         super(DBP15K, self).__init__(root)
@@ -70,8 +70,8 @@ class DBP15K(InMemoryDataset):
             vect = np.fromstring(vect, sep=' ')
             vectors.append(vect)
         embeddings = np.vstack(vectors)
-        embeddings=torch.tensor(embeddings)
-        embeddings=torch.as_tensor(embeddings, dtype=torch.float32)
+        embeddings = torch.tensor(embeddings)
+        embeddings = torch.as_tensor(embeddings, dtype=torch.float32)
         return embeddings
 
     def process_graph(self, triple_path, ent_path, names,embs):
