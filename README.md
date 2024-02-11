@@ -1,5 +1,5 @@
 ## SEAGAN
-Code for IPM2023 paper [“Variety-aware GAN and online learning augmented self-training model for knowledge graph entity alignment”]([https:10.1016/j.ipm.2023.103472](https://www.sciencedirect.com/science/article/pii/S0306457323002091?via%3Dihub)).
+Code for IPM2023 paper [“Variety-aware GAN and online learning augmented self-training model for knowledge graph entity alignment”]([https://www.sciencedirect.com/science/article/pii/S0306457323002091?via%3Dihub]).
 
 ## Environment
 python==3.6.13  
